@@ -27,4 +27,5 @@ public class Author {
 
     @Column(name="email",nullable = false,unique = true)
     private String email;
+
 }

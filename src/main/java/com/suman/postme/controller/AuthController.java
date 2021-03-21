@@ -1,5 +1,6 @@
 package com.suman.postme.controller;
 
+import com.suman.postme.dto.LoginRequest;
 import com.suman.postme.dto.RegisterRequest;
 import com.suman.postme.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,12 @@ public class AuthController {
     public ResponseEntity register(@RequestBody RegisterRequest registerRequest){
         authService.register(registerRequest);
         return new ResponseEntity(HttpStatus.OK);
+    }
+
+    @PostMapping("login")
+    public ResponseEntity login(@RequestBody LoginRequest loginRequest){
+        authService.login(loginRequest);
+        return new ResponseEntity((HttpStatus.OK) );
     }
 
 }
