@@ -24,6 +24,9 @@ public class AuthService {
     @Autowired
     private AuthenticationManager authenticationManager;
 
+    @Autowired
+    private JwtProvider jwtProvider;
+
     public void register(RegisterRequest registerRequest) {
         Author author=new Author();
         author.setAuthorName(registerRequest.getAuthorName());
@@ -33,8 +36,9 @@ public class AuthService {
         authorRepo.save(author);
     }
 
-    public void login(LoginRequest loginRequest) {
+    public String login(LoginRequest loginRequest) {
         Authentication authentication=authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getAuthorName(),loginRequest.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
+        return jwtProvider.generateToken(authentication);
     }
 }
