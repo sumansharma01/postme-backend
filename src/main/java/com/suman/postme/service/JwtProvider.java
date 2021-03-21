@@ -1,5 +1,6 @@
 package com.suman.postme.service;
 
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
@@ -15,6 +16,14 @@ public class JwtProvider {
 
     private Key key;
 
+    public String getUserNameFromJwt(String jwt) {
+        Claims claims=Jwts.parser().setSigningKey(key)
+                .parseClaimsJws(jwt)
+                .getBody();
+
+        return claims.getSubject();
+    }
+
     @PostConstruct
     public void init(){
         key=Keys.secretKeyFor(SignatureAlgorithm.HS512);
@@ -26,6 +35,11 @@ public class JwtProvider {
                 .setSubject(principal.getUsername())
                 .signWith(key)
                 .compact();
+    }
+
+    public boolean validateToken(String jwt){
+        Jwts.parser().setSigningKey(key).parseClaimsJws(jwt);
+        return true;
     }
 
 }
